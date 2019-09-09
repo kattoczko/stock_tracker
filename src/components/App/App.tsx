@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import CompaniesPage from "../CompaniesPage/CompaniesPage";
 import TrackNewCompanyPage from "../TrackNewCompanyPage/TrackNewCompanyPage";
+import styles from "./App.module.css";
 
 const App: React.FunctionComponent<{}> = () => {
   return (
