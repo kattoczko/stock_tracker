@@ -6,6 +6,7 @@ import { AppState } from "../../redux/store";
 import { CompaniesState } from "../../redux/companies/types";
 import * as companiesActions from "../../redux/companies/companiesActions";
 import CompanyDetail from "../CompanyDetails/CompanyDetails";
+import PageContainer from "../PageContainer/PageContainer";
 
 interface CompaniesPageProps {
   companies: CompaniesState;
@@ -33,7 +34,7 @@ const CompaniesPage: React.FunctionComponent<CompaniesPageProps> = ({
     );
   });
   return (
-    <div>
+    <PageContainer>
       <h1>Companies</h1>
       {companies.length === 0 ? (
         <div>
@@ -45,7 +46,7 @@ const CompaniesPage: React.FunctionComponent<CompaniesPageProps> = ({
       ) : (
         <ol>{companiesListItems}</ol>
       )}
-    </div>
+    </PageContainer>
   );
 };
 

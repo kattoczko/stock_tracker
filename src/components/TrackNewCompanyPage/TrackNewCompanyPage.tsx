@@ -10,6 +10,7 @@ import { useDebounce } from "../../utils/customHooks";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Autosuggest from "react-autosuggest";
+import PageContainer from "../PageContainer/PageContainer";
 
 interface TrackNewCompanyPageProps {
   addTrackedCompany: typeof companiesActions.addTrackedCompany;
@@ -83,7 +84,7 @@ const TrackNewCompanyPage: React.FunctionComponent<
     return <Redirect to="/" />;
   } else {
     return (
-      <div>
+      <PageContainer>
         <h1>Track new company</h1>
         <Form>
           <Form.Group controlId="formBasicEmail">
@@ -116,7 +117,7 @@ const TrackNewCompanyPage: React.FunctionComponent<
             Track
           </Button>
         </Form>
-      </div>
+      </PageContainer>
     );
   }
 };
