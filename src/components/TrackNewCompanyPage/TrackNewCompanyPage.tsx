@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { AppState } from "../../redux/store";
 import * as companiesActions from "../../redux/companies/companiesActions";
 import { getSuggestedCompanies } from "../../api/companyApi";
+import { useDebounce } from "../../utils/customHooks";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -103,21 +104,6 @@ const TrackNewCompanyPage: React.FunctionComponent<
     </div>
   );
 };
-
-function useDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
