@@ -7,9 +7,7 @@ import Nav from "react-bootstrap/Nav";
 const NavBar: React.FunctionComponent<{}> = () => {
   return (
     <Navbar bg="dark" variant="dark">
-      <Navbar.Brand>
-        <Link to="/">Stock Tracker</Link>
-      </Navbar.Brand>
+      <Navbar.Brand>Stock Tracker</Navbar.Brand>
       <Nav className="mr-auto">
         <LinkContainer to="/">
           <Nav.Link>Companies</Nav.Link>
