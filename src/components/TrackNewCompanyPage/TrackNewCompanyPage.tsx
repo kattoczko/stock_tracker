@@ -22,18 +22,23 @@ const TrackNewCompanyPage: React.FunctionComponent<
   const [suggestions, setSuggestions] = useState([]);
   const [redirect, setRedirect] = useState(false);
   const [pickedSuggestion, setPickedSuggestion] = useState(null);
+  const [loading, setLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(inputValue, 250);
 
   useEffect(() => {
     if (debouncedSearchTerm && !pickedSuggestion) {
-      getSuggestedCompanies(debouncedSearchTerm).then(result => {
-        if (result.bestMatches.length > 0) {
-          const suggestions = result.bestMatches;
-          setSuggestions(suggestions);
-        }
-      });
+      setLoading(true);
+      getSuggestedCompanies(debouncedSearchTerm)
+        .then(result => {
+          if (result.bestMatches.length > 0) {
+            const suggestions = result.bestMatches;
+            setSuggestions(suggestions);
+          }
+        })
+        .catch(err => console.log(err))
+        .finally(() => setLoading(false));
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, pickedSuggestion]);
 
   function handleInputChange(
     e: React.ChangeEvent<FormControlProps>,
@@ -49,7 +54,7 @@ const TrackNewCompanyPage: React.FunctionComponent<
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     e.preventDefault();
-    addTrackedCompany(inputValue);
+    addTrackedCompany(pickedSuggestion);
     setRedirect(true);
   }
 
