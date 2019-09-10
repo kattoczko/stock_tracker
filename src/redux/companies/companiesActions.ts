@@ -1,6 +1,11 @@
-import { ADD_COMPANY, REMOVE_COMPANY, CompaniesActionTypes } from "./types";
+import {
+  ADD_COMPANY,
+  REMOVE_COMPANY,
+  CompaniesActionTypes,
+  Company
+} from "./types";
 
-export function addTrackedCompany(company: {}): CompaniesActionTypes {
+export function addTrackedCompany(company: Company): CompaniesActionTypes {
   return {
     type: ADD_COMPANY,
     company

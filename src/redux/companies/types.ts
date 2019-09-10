@@ -2,16 +2,22 @@ export const ADD_COMPANY = "ADD_COMPANY";
 export const REMOVE_COMPANY = "REMOVE_COMPANY";
 
 export interface Company {
-  id: string;
+  symbol: string;
   name: string;
-  done: string[];
+  type: string;
+  region: string;
+  marketOpen: string;
+  marketClose: string;
+  timezone: string;
+  currency: string;
+  matchScore: string;
 }
 
 export type CompaniesState = Company[];
 
 interface AddTrackedCompany {
   type: typeof ADD_COMPANY;
-  company: {};
+  company: Company;
 }
 
 interface RemoveTrackedCompany {
