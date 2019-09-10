@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FormControlProps } from "react-bootstrap";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
-import { AppState } from "../../redux/store";
+import { Redirect } from "react-router-dom";
 import * as companiesActions from "../../redux/companies/companiesActions";
 import { getSuggestedCompanies } from "../../api/companyApi";
 import { useDebounce } from "../../utils/customHooks";
@@ -20,6 +20,7 @@ const TrackNewCompanyPage: React.FunctionComponent<
 > = ({ addTrackedCompany }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [redirect, setRedirect] = useState(false);
   const [pickedSuggestion, setPickedSuggestion] = useState(null);
   const debouncedSearchTerm = useDebounce(inputValue, 250);
 
@@ -49,6 +50,7 @@ const TrackNewCompanyPage: React.FunctionComponent<
   ) {
     e.preventDefault();
     addTrackedCompany(inputValue);
+    setRedirect(true);
   }
 
   function handleSuggestionsFetchRequested({ value }) {
@@ -65,44 +67,53 @@ const TrackNewCompanyPage: React.FunctionComponent<
   }
 
   function renderSuggestion(suggestion) {
-    return <div>{suggestion["1. symbol"]}</div>;
+    return (
+      <div>
+        {suggestion["1. symbol"]} - {suggestion["2. name"]}
+      </div>
+    );
   }
 
-  return (
-    <div>
-      <h1>Track new company</h1>
-      <Form>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Company symbol</Form.Label>
-          <Autosuggest
-            className="form-control"
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
-            onSuggestionsClearRequested={handleSuggestionsClearRequested}
-            getSuggestionValue={getSuggestionValue}
-            renderSuggestion={renderSuggestion}
-            inputProps={{
-              placeholder: "Write company symbol",
-              value: inputValue,
-              onChange: handleInputChange
-            }}
-          />
-          <Form.Text className="text-muted">
-            Provide the stock exchange symbol of a company you want to track
-          </Form.Text>
-        </Form.Group>
+  if (redirect) {
+    return <Redirect to="/" />;
+  } else {
+    return (
+      <div>
+        <h1>Track new company</h1>
+        <Form>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Company symbol</Form.Label>
+            <Autosuggest
+              className="form-control"
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
+              onSuggestionsClearRequested={handleSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderSuggestion}
+              inputProps={{
+                placeholder: "Write company symbol",
+                value: inputValue,
+                onChange: handleInputChange
+              }}
+            />
+            <Form.Text className="text-muted">
+              Provide the stock exchange symbol of a company you want to track
+            </Form.Text>
+          </Form.Group>
+          {loading && <p>Loading...</p>}
 
-        <Button
-          variant="primary"
-          type="submit"
-          onClick={handleTrackButtonClick}
-          disabled={!pickedSuggestion}
-        >
-          Track
-        </Button>
-      </Form>
-    </div>
-  );
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={handleTrackButtonClick}
+            disabled={!pickedSuggestion}
+          >
+            Track
+          </Button>
+        </Form>
+      </div>
+    );
+  }
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
