@@ -1,16 +1,4 @@
-import {
-  TEST_TYPE,
-  ADD_COMPANY,
-  REMOVE_COMPANY,
-  CompaniesActionTypes
-} from "./types";
-
-export function testAction(data: []): CompaniesActionTypes {
-  return {
-    type: TEST_TYPE,
-    data
-  };
-}
+import { ADD_COMPANY, REMOVE_COMPANY, CompaniesActionTypes } from "./types";
 
 export function addTrackedCompany(company: {}): CompaniesActionTypes {
   return {
