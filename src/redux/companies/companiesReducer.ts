@@ -13,17 +13,13 @@ export default function companiesReducer(
 ): CompaniesState {
   switch (action.type) {
     case ADD_COMPANY:
-      if (
-        state.some(
-          company => company["1. symbol"] === action.company["1. symbol"]
-        )
-      ) {
+      if (state.some(company => company.symbol === action.company.symbol)) {
         return state;
       } else {
         return [...state, { ...action.company }];
       }
     case REMOVE_COMPANY:
-      return state.filter(company => company["1. symbol"] !== action.symbol);
+      return state.filter(company => company.symbol !== action.symbol);
     default:
       return state;
   }

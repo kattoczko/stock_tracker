@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import * as companiesActions from "../../redux/companies/companiesActions";
 import { getSuggestedCompanies } from "../../api/companyApi";
 import { useDebounce } from "../../utils/customHooks";
+import { formatObjectKeys } from "../../utils/helpers";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -32,7 +33,11 @@ const TrackNewCompanyPage: React.FunctionComponent<
       getSuggestedCompanies(debouncedSearchTerm)
         .then(result => {
           if (result.bestMatches.length > 0) {
-            const suggestions = result.bestMatches;
+            const suggestions = result.bestMatches.map(match => {
+              console.log(formatObjectKeys(match));
+              return formatObjectKeys(match);
+            });
+            console.log("suggestions", suggestions);
             setSuggestions(suggestions);
           }
         })
@@ -69,13 +74,13 @@ const TrackNewCompanyPage: React.FunctionComponent<
 
   function getSuggestionValue(suggestion) {
     setPickedSuggestion(suggestion);
-    return suggestion["1. symbol"];
+    return suggestion.symbol;
   }
 
   function renderSuggestion(suggestion) {
     return (
       <div>
-        {suggestion["1. symbol"]} - {suggestion["2. name"]}
+        {suggestion.symbol} - {suggestion.name}
       </div>
     );
   }
