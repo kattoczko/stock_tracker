@@ -34,10 +34,8 @@ const TrackNewCompanyPage: React.FunctionComponent<
         .then(result => {
           if (result.bestMatches.length > 0) {
             const suggestions = result.bestMatches.map(match => {
-              console.log(formatObjectKeys(match));
               return formatObjectKeys(match);
             });
-            console.log("suggestions", suggestions);
             setSuggestions(suggestions);
           }
         })
