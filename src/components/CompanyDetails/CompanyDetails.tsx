@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 
+import { Company } from "../../redux/companies/types";
 import { getGlobalQuote } from "../../api/companyApi";
+import { formatObjectKeys } from "../../utils/helpers";
 
-function CompanyDetail({
-  symbol,
-  name,
-  region,
-  marketOpen,
-  marketClose,
-  timezone,
-  currency,
+interface CompanyDetailsProps {
+  companyData: Company;
+  onDelete: (symbol: string) => void;
+}
+
+const CompanyDetail: React.FunctionComponent<CompanyDetailsProps> = ({
+  companyData,
   onDelete
-}) {
+}) => {
   const [quoteData, setQuoteData] = useState(null);
+  const {
+    symbol,
+    marketClose,
+    marketOpen,
+    name,
+    region,
+    currency,
+    timezone
+  } = companyData;
 
   function handleDelete() {
     onDelete(symbol);
@@ -22,11 +32,11 @@ function CompanyDetail({
   useEffect(() => {
     getGlobalQuote(symbol)
       .then(res => {
-        const globalQuote = res["Global Quote"];
+        const globalQuote = formatObjectKeys(res["Global Quote"]);
         const quoteData = {
-          price: globalQuote["05. price"],
-          change: globalQuote["09. change"],
-          changePercent: globalQuote["10. change percent"]
+          price: globalQuote.price,
+          change: globalQuote.change,
+          changePercent: globalQuote.changePercent
         };
         setQuoteData(quoteData);
       })
@@ -54,6 +64,6 @@ function CompanyDetail({
       </Button>
     </div>
   );
-}
+};
 
 export default CompanyDetail;

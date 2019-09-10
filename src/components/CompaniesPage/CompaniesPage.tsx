@@ -19,17 +19,8 @@ const CompaniesPage: React.FunctionComponent<CompaniesPageProps> = ({
 }) => {
   const companiesListItems = companies.map(company => {
     return (
-      <li key={company["1. symbol"]}>
-        <CompanyDetail
-          symbol={company["1. symbol"]}
-          name={company["2. name"]}
-          region={company["4. region"]}
-          marketOpen={company["5. marketOpen"]}
-          marketClose={company["6. marketClose"]}
-          timezone={company["7. timezone"]}
-          currency={company["8. currency"]}
-          onDelete={removeTrackedCompany}
-        />
+      <li key={company.symbol}>
+        <CompanyDetail companyData={company} onDelete={removeTrackedCompany} />
       </li>
     );
   });
